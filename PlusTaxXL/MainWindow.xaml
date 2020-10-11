@@ -1,0 +1,250 @@
+﻿<Window
+    x:Class="PlusTaxXL.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PlusTaxXL"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="clr-namespace:PlusTaxXL.Properties"
+    Title="PlusTaxXL"
+    Width="510"
+    Height="500"
+    MinWidth="500"
+    MinHeight="380"
+    MaxWidth="800"
+    Closing="Window_Closing"
+    ContentRendered="Window_ContentRendered"
+    FontSize="32"
+    SizeToContent="WidthAndHeight"
+    mc:Ignorable="d">
+
+    <!--#region Background-->
+    <Window.Background>
+        <ImageBrush ImageSource="CashFade.png" Stretch="UniformToFill" />
+    </Window.Background>
+    <!--#endregion-->
+
+    <Grid Background="Honeydew" Opacity=".7">
+
+        <!--#region Grid row and column definitions-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="75" />
+            <RowDefinition x:Name="rowTaxRate" Height="75" />
+            <RowDefinition Height="75" />
+            <RowDefinition Height="75" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        <!--#endregion-->
+
+        <!--#region Menu-->
+        <DockPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="5"
+            LastChildFill="False">
+            <Menu
+                Height="26"
+                Background="Honeydew"
+                DockPanel.Dock="Top"
+                FontSize="16">
+                <MenuItem Header="File">
+                    <MenuItem
+                        Name="mnuExit"
+                        Click="MenuExit_Click"
+                        Header="Exit" />
+                </MenuItem>
+                <MenuItem Header="Options">
+                    <MenuItem
+                        Header="Automatically Copy to Clipboard"
+                        IsCheckable="True"
+                        IsChecked="{Binding CopyToClipboard, Source={x:Static p:Settings.Default}}"
+                        StaysOpenOnClick="True" />
+                    <Separator />
+                    <MenuItem
+                        Header="Keep on Top of Other Windows"
+                        IsCheckable="True"
+                        IsChecked="{Binding KeepOnTop, Source={x:Static p:Settings.Default}}"
+                        StaysOpenOnClick="True" />
+                    <Separator />
+                    <MenuItem
+                        Header="Show/Edit Tax Rate"
+                        IsCheckable="True"
+                        IsChecked="{Binding ShowTaxRate, Source={x:Static p:Settings.Default}}"
+                        StaysOpenOnClick="True" />
+                </MenuItem>
+                <MenuItem Header="About">
+                    <MenuItem
+                        x:Name="menuAbout"
+                        Click="MenuAbout_Click"
+                        Header="About Plus Tax XL" />
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <!--#endregion-->
+
+        <!--#region Title String-->
+        <TextBlock
+            x:Name="tbTitle"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="5"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontFamily="Arial"
+            FontWeight="Bold"
+            Foreground="DarkGreen"
+            Text="Sales Tax Calculator" />
+        <!--#endregion-->
+
+        <!--#region Horizontal Line-->
+        <Border
+            Grid.Row="4"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="4"
+            Margin="0,-2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"
+            BorderBrush="Black"
+            BorderThickness="2" />
+        <!--#endregion-->
+
+        <!--#region Left column (labels)-->
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Text="Amount" />
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Text="Tax Rate" />
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Text="Total Tax" />
+        <TextBlock
+            Grid.Row="5"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Text="Total Amount" />
+        <!--#endregion-->
+
+        <!--#region Center column ($ and % labels)-->
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Text="$" />
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Text="%" />
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Text="$" />
+        <TextBlock
+            Grid.Row="5"
+            Grid.Column="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Text="$" />
+        <!--#endregion-->
+
+        <!--#region Right column (Text boxes)-->
+        <TextBox
+            x:Name="tbxFake"
+            Width="0"
+            Height="0"
+            GotFocus="TbxFake_GotFocus" />
+
+        <!--  Amount  -->
+        <TextBox
+            x:Name="preTaxTxtBox"
+            Grid.Row="2"
+            Grid.Column="3"
+            MinWidth="200"
+            Margin="5,10"
+            HorizontalContentAlignment="Right"
+            Background="Honeydew"
+            FontWeight="Bold"
+            IsTabStop="True"
+            MaxLength="20"
+            PreviewKeyDown="PreTaxTxtBox_PreviewKeyDown"
+            PreviewTextInput="TbxPreviewTextInp"
+            TabIndex="0"
+            Text="{Binding PreTaxAmount, StringFormat={}{0:N2}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
+
+        <!--  Tax Rate  -->
+        <TextBox
+            x:Name="taxRateTxtBox"
+            Grid.Row="3"
+            Grid.Column="3"
+            Margin="5,10"
+            HorizontalContentAlignment="Right"
+            Background="Honeydew"
+            FontWeight="Bold"
+            GotFocus="TaxRateTxtBox_GotFocus"
+            IsTabStop="True"
+            PreviewTextInput="TbxPreviewTextInp"
+            TabIndex="1"
+            Text="{Binding TaxRate, StringFormat={}{0:0.0#####}, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=LostFocus}" />
+
+        <!--  Total Tax  -->
+        <TextBox
+            x:Name="totaltaxTxtBox"
+            Grid.Row="4"
+            Grid.Column="3"
+            Margin="5,10"
+            HorizontalContentAlignment="Right"
+            Background="Honeydew"
+            FontWeight="Bold"
+            IsReadOnly="True"
+            IsTabStop="False"
+            Text="{Binding TotalTax, StringFormat={}{0:N2}}">
+            <TextBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Command="Copy" />
+                </ContextMenu>
+            </TextBox.ContextMenu>
+        </TextBox>
+
+        <!--  Total Amount  -->
+        <TextBox
+            x:Name="totalTxtBox"
+            Grid.Row="5"
+            Grid.Column="3"
+            Margin="5,10"
+            HorizontalContentAlignment="Right"
+            Background="Honeydew"
+            FontWeight="Bold"
+            IsReadOnly="True"
+            IsTabStop="False"
+            Text="{Binding TotalAmount, StringFormat={}{0:N2}}">
+            <TextBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Command="Copy" />
+                </ContextMenu>
+            </TextBox.ContextMenu>
+        </TextBox>
+        <!--#endregion-->
+
+    </Grid>
+</Window>
