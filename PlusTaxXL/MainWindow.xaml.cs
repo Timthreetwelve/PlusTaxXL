@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using PlusTaxXL.Properties;
 #endregion
@@ -40,15 +39,16 @@ namespace PlusTaxXL
             // Settings change event
             Settings.Default.SettingChanging += SettingChanging;
 
+            // Window position
             Top = Settings.Default.WindowTop;
             Left = Settings.Default.WindowLeft;
             Topmost = Settings.Default.KeepOnTop;
+
+            // Tax rate
             tax.TaxRate = Settings.Default.TaxRate;
-            //if (!string.IsNullOrEmpty(Settings.Default.TitleString))
-            //{
-            //    tbTitle.Text = Settings.Default.TitleString;
-            //}
             ShowHideTaxRate(Settings.Default.ShowTaxRate);
+
+            // Show version in title bar
             WindowTitleVersion();
         }
         #endregion
@@ -57,6 +57,15 @@ namespace PlusTaxXL
         private void MenuExit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void EditTitle_Click(object sender, RoutedEventArgs e)
+        {
+            TitleWindow tw = new TitleWindow
+            {
+                Owner = this
+            };
+            tw.ShowDialog();
         }
 
         private void MenuAbout_Click(object sender, RoutedEventArgs e)
@@ -79,11 +88,13 @@ namespace PlusTaxXL
 
         private void PreTaxTxtBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            // Disallow space
             if (e.Key == Key.Space)
             {
                 e.Handled = true;
             }
 
+            // If enter pressed when empty, update other text boxes
             if (e.Key == Key.Enter)
             {
                 if (preTaxTxtBox.Text.Length == 0)
@@ -91,9 +102,23 @@ namespace PlusTaxXL
                     totaltaxTxtBox.Text = "-";
                     totalTxtBox.Text = "-";
                 }
+                // Move focus to "fake" textbox
                 tbxFake.Focus();
                 e.Handled = true;
             }
+        }
+
+        // Move focus right back to pretax amount textbox
+        private void TbxFake_GotFocus(object sender, RoutedEventArgs e)
+        {
+            preTaxTxtBox.Focus();
+            preTaxTxtBox.CaretIndex = preTaxTxtBox.Text.Length;
+        }
+
+        // Move caret to right side
+        private void TaxRateTxtBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            taxRateTxtBox.CaretIndex = taxRateTxtBox.Text.Length;
         }
         #endregion Textbox Events
 
@@ -158,23 +183,5 @@ namespace PlusTaxXL
             taxRateTxtBox.IsEnabled = x;
         }
         #endregion Show or hide tax rate grid row
-
-        private void TbxFake_GotFocus(object sender, RoutedEventArgs e)
-        {
-            preTaxTxtBox.Focus();
-            preTaxTxtBox.CaretIndex = preTaxTxtBox.Text.Length;
-        }
-
-        private void TaxRateTxtBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            taxRateTxtBox.CaretIndex = taxRateTxtBox.Text.Length;
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            TitleWindow tw = new TitleWindow();
-            tw.Owner = this;
-            tw.ShowDialog();
-        }
     }
 }

@@ -22,8 +22,9 @@
     <Window.Background>
         <ImageBrush ImageSource="CashFade.png" Stretch="UniformToFill" />
     </Window.Background>
-    <Grid Background="Honeydew" Opacity=".7">
     <!--#endregion-->
+
+    <Grid Background="Honeydew" Opacity=".7">
 
         <!--#region Grid row and column definitions-->
         <Grid.ColumnDefinitions>
@@ -65,22 +66,19 @@
                     <MenuItem
                         Header="Automatically Copy to Clipboard"
                         IsCheckable="True"
-                        IsChecked="{Binding CopyToClipboard, Source={x:Static p:Settings.Default}}"
-                        StaysOpenOnClick="True" />
+                        IsChecked="{Binding CopyToClipboard, Source={x:Static p:Settings.Default}}" />
                     <Separator />
                     <MenuItem
                         Header="Keep on Top of Other Windows"
                         IsCheckable="True"
-                        IsChecked="{Binding KeepOnTop, Source={x:Static p:Settings.Default}}"
-                        StaysOpenOnClick="True" />
+                        IsChecked="{Binding KeepOnTop, Source={x:Static p:Settings.Default}}" />
                     <Separator />
                     <MenuItem
                         Header="Show/Edit Tax Rate"
                         IsCheckable="True"
-                        IsChecked="{Binding ShowTaxRate, Source={x:Static p:Settings.Default}}"
-                        StaysOpenOnClick="True" />
-                    <Separator/>
-                    <MenuItem Header="Edit Title" Click="MenuItem_Click" />
+                        IsChecked="{Binding ShowTaxRate, Source={x:Static p:Settings.Default}}" />
+                    <Separator />
+                    <MenuItem Click="EditTitle_Click" Header="Edit Title" />
                 </MenuItem>
                 <MenuItem Header="About">
                     <MenuItem
@@ -96,27 +94,14 @@
         <TextBlock
             x:Name="tbTitle"
             Grid.Row="1"
-            Grid.Column="0"
-            Grid.ColumnSpan="5"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontFamily="Arial"
             FontWeight="Bold"
             Foreground="DarkGreen"
-            Text="{Binding TitleString, Source={x:Static p:Settings.Default} }"/>
-        <!--#endregion-->
-
-        <!--#region Horizontal Line-->
-        <Border
-            Grid.Row="4"
-            Grid.Column="1"
-            Grid.ColumnSpan="3"
-            Height="4"
-            Margin="0,-2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Bottom"
-            BorderBrush="Black"
-            BorderThickness="2" />
+            Text="{Binding TitleString, Source={x:Static p:Settings.Default}}" />
         <!--#endregion-->
 
         <!--#region Left column (labels)-->
@@ -245,6 +230,19 @@
                 </ContextMenu>
             </TextBox.ContextMenu>
         </TextBox>
+        <!--#endregion-->
+
+        <!--#region Horizontal Line-->
+        <Border
+            Grid.Row="4"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="4"
+            Margin="0,-2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"
+            BorderBrush="Black"
+            BorderThickness="2" />
         <!--#endregion-->
 
     </Grid>
