@@ -22,9 +22,8 @@
     <Window.Background>
         <ImageBrush ImageSource="CashFade.png" Stretch="UniformToFill" />
     </Window.Background>
-    <!--#endregion-->
-
     <Grid Background="Honeydew" Opacity=".7">
+    <!--#endregion-->
 
         <!--#region Grid row and column definitions-->
         <Grid.ColumnDefinitions>
@@ -80,6 +79,8 @@
                         IsCheckable="True"
                         IsChecked="{Binding ShowTaxRate, Source={x:Static p:Settings.Default}}"
                         StaysOpenOnClick="True" />
+                    <Separator/>
+                    <MenuItem Header="Edit Title" Click="MenuItem_Click" />
                 </MenuItem>
                 <MenuItem Header="About">
                     <MenuItem
@@ -102,7 +103,7 @@
             FontFamily="Arial"
             FontWeight="Bold"
             Foreground="DarkGreen"
-            Text="Sales Tax Calculator" />
+            Text="{Binding TitleString, Source={x:Static p:Settings.Default} }"/>
         <!--#endregion-->
 
         <!--#region Horizontal Line-->

@@ -21,7 +21,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="TitleString" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Mom's Sales Tax Calculator</Value>
+      <Value Profile="(Default)">My Sales Tax Calculator</Value>
     </Setting>
     <Setting Name="ShowTaxRate" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

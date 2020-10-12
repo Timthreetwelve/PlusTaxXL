@@ -1,0 +1,43 @@
+﻿<Window
+    x:Class="PlusTaxXL.TitleWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PlusTaxXL"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="clr-namespace:PlusTaxXL.Properties"
+    Title="Plus Tax XL"
+    Width="300"
+    Height="140"
+    FontSize="16"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+
+    <Grid Background="Honeydew">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Text="Enter Title Below" />
+
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Height="30"
+            Padding="5,0"
+            VerticalContentAlignment="Center"
+            Text="{Binding TitleString, Source={x:Static p:Settings.Default}}" />
+    </Grid>
+</Window>

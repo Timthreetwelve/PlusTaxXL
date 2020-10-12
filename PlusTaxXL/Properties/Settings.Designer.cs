@@ -97,7 +97,7 @@ namespace PlusTaxXL.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Mom\'s Sales Tax Calculator")]
+        [global::System.Configuration.DefaultSettingValueAttribute("My Sales Tax Calculator")]
         public string TitleString {
             get {
                 return ((string)(this["TitleString"]));

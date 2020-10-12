@@ -44,10 +44,10 @@ namespace PlusTaxXL
             Left = Settings.Default.WindowLeft;
             Topmost = Settings.Default.KeepOnTop;
             tax.TaxRate = Settings.Default.TaxRate;
-            if (!string.IsNullOrEmpty(Settings.Default.TitleString))
-            {
-                tbTitle.Text = Settings.Default.TitleString;
-            }
+            //if (!string.IsNullOrEmpty(Settings.Default.TitleString))
+            //{
+            //    tbTitle.Text = Settings.Default.TitleString;
+            //}
             ShowHideTaxRate(Settings.Default.ShowTaxRate);
             WindowTitleVersion();
         }
@@ -168,6 +168,13 @@ namespace PlusTaxXL
         private void TaxRateTxtBox_GotFocus(object sender, RoutedEventArgs e)
         {
             taxRateTxtBox.CaretIndex = taxRateTxtBox.Text.Length;
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            TitleWindow tw = new TitleWindow();
+            tw.Owner = this;
+            tw.ShowDialog();
         }
     }
 }
