@@ -45,7 +45,6 @@ namespace PlusTaxXL
         public decimal TotalTax { get; set; }
 
         public decimal TotalAmount { get; set; }
-
         #endregion
 
         #region Calculate
@@ -56,7 +55,7 @@ namespace PlusTaxXL
             TotalAmount = preTaxAmount + TotalTax;
 
             // Copy the total amount to the windows clipboard
-            if (Properties.Settings.Default.CopyToClipboard)
+            if (UserSettings.Setting.CopyToClipboard)
             {
                 Clipboard.SetText(TotalAmount.ToString());
             }
@@ -97,13 +96,11 @@ namespace PlusTaxXL
                         }
                         break;
                 }
-
                 return result;
             }
         }
 
         public string Error { get { return null; } }
-
         #endregion
 
         #region Property changed

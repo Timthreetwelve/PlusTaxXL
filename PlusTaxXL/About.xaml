@@ -40,7 +40,7 @@
             Height="69"
             Margin="5,18,0,23"
             HorizontalAlignment="Left"
-            Source="Plus.ico"
+            Source="Images\Plus.ico"
             Stretch="UniformToFill"
             ToolTip="Built with ❤ in Texas" />
 
@@ -49,11 +49,13 @@
             Grid.Column="2"
             Orientation="Vertical">
             <TextBlock
-                Width="184"
+                Width="180"
                 Margin="10,20,0,5"
                 HorizontalAlignment="Left"
-                FontSize="15"
-                Text="Plus Tax XL - Quickly calculate sales tax and actually see the result!"
+                FontSize="18"
+                Foreground="DarkGreen"
+                Text="Plus Tax XL&#x0a;Quickly calculate&#x0a;sales tax."
+                TextAlignment="Center"
                 TextWrapping="Wrap" />
         </StackPanel>
 

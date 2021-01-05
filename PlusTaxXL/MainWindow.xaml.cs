@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
-using PlusTaxXL.Properties;
 #endregion
 
 namespace PlusTaxXL
@@ -20,6 +19,7 @@ namespace PlusTaxXL
 
         public MainWindow()
         {
+            UserSettings.Init(UserSettings.AppFolder, UserSettings.DefaultFilename, true);
             InitializeComponent();
             DataContext = tax;
             ReadSettings();
@@ -28,25 +28,17 @@ namespace PlusTaxXL
         #region Read settings from config file
         private void ReadSettings()
         {
-            if (Settings.Default.SettingsUpgradeRequired)
-            {
-                Settings.Default.Upgrade();
-                Settings.Default.SettingsUpgradeRequired = false;
-                Settings.Default.Save();
-                CleanUp.CleanupPrevSettings();
-            }
-
             // Settings change event
-            Settings.Default.SettingChanging += SettingChanging;
+            UserSettings.Setting.PropertyChanged += UserSettingChanged;
 
             // Window position
-            Top = Settings.Default.WindowTop;
-            Left = Settings.Default.WindowLeft;
-            Topmost = Settings.Default.KeepOnTop;
+            Top = UserSettings.Setting.WindowTop;
+            Left = UserSettings.Setting.WindowLeft;
+            Topmost = UserSettings.Setting.KeepOnTop;
 
             // Tax rate
-            tax.TaxRate = Settings.Default.TaxRate;
-            ShowHideTaxRate(Settings.Default.ShowTaxRate);
+            tax.TaxRate = UserSettings.Setting.TaxRate;
+            ShowHideTaxRate(UserSettings.Setting.ShowTaxRate);
 
             // Show version in title bar
             WindowTitleVersion();
@@ -133,10 +125,10 @@ namespace PlusTaxXL
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             // Save settings on exit
-            Settings.Default.TaxRate = tax.TaxRate;
-            Settings.Default.WindowTop = Top;
-            Settings.Default.WindowLeft = Left;
-            Settings.Default.Save();
+            UserSettings.Setting.TaxRate = tax.TaxRate;
+            UserSettings.Setting.WindowTop = Top;
+            UserSettings.Setting.WindowLeft = Left;
+            UserSettings.SaveSettings();
         }
         #endregion Window Events
 
@@ -172,6 +164,28 @@ namespace PlusTaxXL
             }
             Debug.WriteLine($"Setting: {e.SettingName} New Value: {e.NewValue}");
         }
+
+        #region Setting change
+        private void UserSettingChanged(object sender, PropertyChangedEventArgs e)
+        {
+            PropertyInfo prop = sender.GetType().GetProperty(e.PropertyName);
+            var newValue = prop?.GetValue(sender, null);
+            switch (e.PropertyName)
+            {
+                case "ShowTaxRate":
+                    {
+                        ShowHideTaxRate((bool)newValue);
+                        break;
+                    }
+                case "KeepOnTop":
+                    {
+                        Topmost = (bool)newValue;
+                        break;
+                    }
+            }
+            Debug.WriteLine($"***Setting change: {e.PropertyName} New Value: {newValue}");
+        }
+        #endregion Setting change
         #endregion Setting change
 
         #region Show or hide tax rate grid row

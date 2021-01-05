@@ -66,17 +66,17 @@
                     <MenuItem
                         Header="Automatically Copy to Clipboard"
                         IsCheckable="True"
-                        IsChecked="{Binding CopyToClipboard, Source={x:Static p:Settings.Default}}" />
+                        IsChecked="{Binding CopyToClipboard, Source={x:Static local:UserSettings.Setting}}" />
                     <Separator />
                     <MenuItem
                         Header="Keep on Top of Other Windows"
                         IsCheckable="True"
-                        IsChecked="{Binding KeepOnTop, Source={x:Static p:Settings.Default}}" />
+                        IsChecked="{Binding KeepOnTop, Source={x:Static local:UserSettings.Setting}}" />
                     <Separator />
                     <MenuItem
                         Header="Show/Edit Tax Rate"
                         IsCheckable="True"
-                        IsChecked="{Binding ShowTaxRate, Source={x:Static p:Settings.Default}}" />
+                        IsChecked="{Binding ShowTaxRate, Source={x:Static local:UserSettings.Setting}}" />
                     <Separator />
                     <MenuItem Click="EditTitle_Click" Header="Edit Title" />
                 </MenuItem>
@@ -101,7 +101,7 @@
             FontFamily="Arial"
             FontWeight="Bold"
             Foreground="DarkGreen"
-            Text="{Binding TitleString, Source={x:Static p:Settings.Default}}" />
+            Text="{Binding TitleString, Source={x:Static local:UserSettings.Setting}}" />
         <!--#endregion-->
 
         <!--#region Left column (labels)-->
