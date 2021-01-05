@@ -20,7 +20,7 @@
 
     <!--#region Background-->
     <Window.Background>
-        <ImageBrush ImageSource="CashFade.png" Stretch="UniformToFill" />
+        <ImageBrush ImageSource="Images/CashFade.png" Stretch="UniformToFill" />
     </Window.Background>
     <!--#endregion-->
 

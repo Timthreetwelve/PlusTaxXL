@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Plus.ico</ApplicationIcon>
+    <ApplicationIcon>Images\Plus.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -107,10 +107,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Plus.ico" />
+    <Resource Include="Images\Plus.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CashFade.png" />
+    <Resource Include="Images\CashFade.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

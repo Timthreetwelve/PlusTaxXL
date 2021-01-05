@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("T_K")]
 [assembly: AssemblyProduct("PlusTaxXL")]
-[assembly: AssemblyCopyright("Copyright ©  2020 Tim Kennedy")]
+[assembly: AssemblyCopyright("Copyright ©  2020-2021 Tim Kennedy")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -49,5 +49,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.2.4.2021")]
-[assembly: AssemblyFileVersion("0.2.4.2021")]
+[assembly: AssemblyVersion("0.2.5.5")]
+[assembly: AssemblyFileVersion("0.2.5.5")]
