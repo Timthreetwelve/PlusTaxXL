@@ -53,7 +53,15 @@ namespace PlusTaxXL
             }
         }
 
-        public bool ShowTaxRate { get; set; }
+        public bool ShowTaxRate
+        {
+            get => showTaxRate;
+            set
+            {
+                showTaxRate = value;
+                OnPropertyChanged(nameof(ShowTaxRate));
+            }
+        }
 
         public decimal TaxRate { get; set; }
 
@@ -102,6 +110,7 @@ namespace PlusTaxXL
         #region Private backing fields
         private bool keepOnTop;
         private double gridZoom;
+        private bool showTaxRate;
         private double windowHeight;
         private double windowLeft;
         private double windowTop;

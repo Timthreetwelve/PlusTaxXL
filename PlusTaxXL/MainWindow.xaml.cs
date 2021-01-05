@@ -147,25 +147,6 @@ namespace PlusTaxXL
         #endregion Helper Methods
 
         #region Setting change
-        private void SettingChanging(object sender, SettingChangingEventArgs e)
-        {
-            switch (e.SettingName)
-            {
-                case "ShowTaxRate":
-                    {
-                        ShowHideTaxRate((bool)e.NewValue);
-                        break;
-                    }
-                case "KeepOnTop":
-                    {
-                        Topmost = (bool)e.NewValue;
-                        break;
-                    }
-            }
-            Debug.WriteLine($"Setting: {e.SettingName} New Value: {e.NewValue}");
-        }
-
-        #region Setting change
         private void UserSettingChanged(object sender, PropertyChangedEventArgs e)
         {
             PropertyInfo prop = sender.GetType().GetProperty(e.PropertyName);
@@ -185,7 +166,6 @@ namespace PlusTaxXL
             }
             Debug.WriteLine($"***Setting change: {e.PropertyName} New Value: {newValue}");
         }
-        #endregion Setting change
         #endregion Setting change
 
         #region Show or hide tax rate grid row
