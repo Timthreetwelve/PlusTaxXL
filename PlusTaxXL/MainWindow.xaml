@@ -5,16 +5,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:PlusTaxXL"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:p="clr-namespace:PlusTaxXL.Properties"
     Title="PlusTaxXL"
     Width="510"
     Height="500"
-    MinWidth="500"
-    MinHeight="380"
-    MaxWidth="800"
+    d:DataContext="{d:DesignInstance Type=local:UserSettings}"
     Closing="Window_Closing"
     ContentRendered="Window_ContentRendered"
-    FontSize="32"
+    FontSize="20"
+    KeyDown="Window_KeyDown"
     SizeToContent="WidthAndHeight"
     mc:Ignorable="d">
 
@@ -24,7 +22,11 @@
     </Window.Background>
     <!--#endregion-->
 
-    <Grid Background="Honeydew" Opacity=".7">
+    <Grid
+        x:Name="Grid1"
+        Background="Honeydew"
+        Opacity=".7"
+        PreviewMouseWheel="Grid1_PreviewMouseWheel">
 
         <!--#region Grid row and column definitions-->
         <Grid.ColumnDefinitions>
@@ -36,11 +38,13 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="28" />
-            <RowDefinition Height="50" />
-            <RowDefinition Height="75" />
-            <RowDefinition x:Name="rowTaxRate" Height="75" />
-            <RowDefinition Height="75" />
-            <RowDefinition Height="75" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="45" />
+            <RowDefinition x:Name="rowTaxRate" Height="45" /> 
+            <!--  Row height determined in code behind  -->
+            <RowDefinition Height="45" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="45" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
         <!--#endregion-->
@@ -53,38 +57,59 @@
             LastChildFill="False">
             <Menu
                 Height="26"
+                Padding="10,0,0,0"
                 Background="Honeydew"
                 DockPanel.Dock="Top"
-                FontSize="16">
-                <MenuItem Header="File">
+                FontSize="15">
+                <MenuItem Header="_File">
                     <MenuItem
                         Name="mnuExit"
                         Click="MenuExit_Click"
-                        Header="Exit" />
+                        Header="_Exit Plus Tax XL" />
                 </MenuItem>
-                <MenuItem Header="Options">
+                <MenuItem Header="_Options">
                     <MenuItem
-                        Header="Automatically Copy to Clipboard"
+                        Header="_Automatically Copy Total to Clipboard"
                         IsCheckable="True"
                         IsChecked="{Binding CopyToClipboard, Source={x:Static local:UserSettings.Setting}}" />
                     <Separator />
                     <MenuItem
-                        Header="Keep on Top of Other Windows"
+                        Header="_Keep on Top of Other Windows"
                         IsCheckable="True"
                         IsChecked="{Binding KeepOnTop, Source={x:Static local:UserSettings.Setting}}" />
                     <Separator />
                     <MenuItem
-                        Header="Show/Edit Tax Rate"
+                        Header="_Show/Edit Tax Rate"
                         IsCheckable="True"
                         IsChecked="{Binding ShowTaxRate, Source={x:Static local:UserSettings.Setting}}" />
                     <Separator />
-                    <MenuItem Click="EditTitle_Click" Header="Edit Title" />
+                    <MenuItem Click="EditTitle_Click" Header="Customize Title" />
+                    <Separator />
+                    <MenuItem Header="Adjust Window _Zoom">
+                        <MenuItem
+                            Click="GridSmaller_Click"
+                            Header="_Smaller"
+                            InputGestureText="Ctrl+NumPad –"
+                            StaysOpenOnClick="True" />
+                        <MenuItem
+                            Click="GridLarger_Click"
+                            Header="_Larger"
+                            InputGestureText="Ctrl+NumPad +"
+                            StaysOpenOnClick="True" />
+                        <Separator />
+                        <MenuItem
+                            Click="GridReset_Click"
+                            Header="_Reset"
+                            InputGestureText="Ctrl+NumPad 0"
+                            StaysOpenOnClick="True" />
+                    </MenuItem>
                 </MenuItem>
-                <MenuItem Header="About">
+                <MenuItem Header="_About">
                     <MenuItem
                         x:Name="menuAbout"
                         Click="MenuAbout_Click"
-                        Header="About Plus Tax XL" />
+                        Header="About Plus Tax XL"
+                        InputGestureText="F1" />
                 </MenuItem>
             </Menu>
         </DockPanel>
@@ -121,7 +146,7 @@
             VerticalAlignment="Center"
             Text="Total Tax" />
         <TextBlock
-            Grid.Row="5"
+            Grid.Row="6"
             Grid.Column="1"
             VerticalAlignment="Center"
             Text="Total Amount" />
@@ -147,7 +172,7 @@
             VerticalAlignment="Center"
             Text="$" />
         <TextBlock
-            Grid.Row="5"
+            Grid.Row="6"
             Grid.Column="2"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
@@ -167,7 +192,7 @@
             Grid.Row="2"
             Grid.Column="3"
             MinWidth="200"
-            Margin="5,10"
+            Margin="5,5"
             HorizontalContentAlignment="Right"
             Background="Honeydew"
             BorderBrush="Silver"
@@ -184,7 +209,7 @@
             x:Name="taxRateTxtBox"
             Grid.Row="3"
             Grid.Column="3"
-            Margin="5,10"
+            Margin="5,5"
             HorizontalContentAlignment="Right"
             Background="Honeydew"
             BorderBrush="Silver"
@@ -200,7 +225,7 @@
             x:Name="totaltaxTxtBox"
             Grid.Row="4"
             Grid.Column="3"
-            Margin="5,10"
+            Margin="5,5"
             HorizontalContentAlignment="Right"
             Background="Honeydew"
             BorderBrush="Silver"
@@ -218,9 +243,9 @@
         <!--  Total Amount  -->
         <TextBox
             x:Name="totalTxtBox"
-            Grid.Row="5"
+            Grid.Row="6"
             Grid.Column="3"
-            Margin="5,10"
+            Margin="5,5"
             HorizontalContentAlignment="Right"
             Background="Honeydew"
             BorderBrush="Silver"
@@ -238,13 +263,13 @@
 
         <!--#region Horizontal Line-->
         <Border
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="1"
             Grid.ColumnSpan="3"
             Height="4"
-            Margin="0,-2"
+            Margin="0,0"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Bottom"
+            VerticalAlignment="Center"
             BorderBrush="Black"
             BorderThickness="2" />
         <!--#endregion-->

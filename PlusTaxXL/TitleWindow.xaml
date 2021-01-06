@@ -7,15 +7,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Plus Tax XL"
     Width="320"
-    Height="140"
+    Height="200"
     MinWidth="300"
     FontSize="20"
-    SizeToContent="Width"
+    SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterOwner"
     WindowStyle="ToolWindow"
     mc:Ignorable="d">
 
-    <Grid Background="Honeydew">
+    <Grid x:Name="TitleWindowGrid" Background="Honeydew">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="*" />
@@ -23,16 +23,18 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="10" />
-            <RowDefinition Height="30" />
-            <RowDefinition Height="40" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
         <TextBlock
             Grid.Row="1"
             Grid.Column="1"
+            Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="Enter Title Below" />
+            Text="Customize Title Below" />
 
         <TextBox
             Grid.Row="2"
@@ -43,5 +45,15 @@
             VerticalContentAlignment="Center"
             BorderBrush="DimGray"
             Text="{Binding TitleString, Source={x:Static local:UserSettings.Setting}}" />
+
+        <Button
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="20"
+            MinWidth="100"
+            Padding="10,5"
+            HorizontalAlignment="Center"
+            Click="Button_Click"
+            Content="Close" />
     </Grid>
 </Window>

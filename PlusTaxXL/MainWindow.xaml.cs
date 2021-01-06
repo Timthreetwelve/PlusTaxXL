@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 #endregion
 
 namespace PlusTaxXL
@@ -36,6 +37,10 @@ namespace PlusTaxXL
             Left = UserSettings.Setting.WindowLeft;
             Topmost = UserSettings.Setting.KeepOnTop;
 
+            // Set data grid zoom level
+            double curZoom = UserSettings.Setting.GridZoom;
+            Grid1.LayoutTransform = new ScaleTransform(curZoom, curZoom);
+
             // Tax rate
             tax.TaxRate = UserSettings.Setting.TaxRate;
             ShowHideTaxRate(UserSettings.Setting.ShowTaxRate);
@@ -58,6 +63,19 @@ namespace PlusTaxXL
                 Owner = this
             };
             tw.ShowDialog();
+        }
+
+        private void GridSmaller_Click(object sender, RoutedEventArgs e)
+        {
+            GridSmaller();
+        }
+        private void GridLarger_Click(object sender, RoutedEventArgs e)
+        {
+            GridLarger();
+        }
+        private void GridReset_Click(object sender, RoutedEventArgs e)
+        {
+            GridSizeReset();
         }
 
         private void MenuAbout_Click(object sender, RoutedEventArgs e)
@@ -132,6 +150,53 @@ namespace PlusTaxXL
         }
         #endregion Window Events
 
+        #region Keyboard Events
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.NumPad0 && (Keyboard.Modifiers & ModifierKeys.Control) != 0)
+            {
+                GridSizeReset();
+            }
+
+            if (e.Key == Key.Add && (Keyboard.Modifiers & ModifierKeys.Control) != 0)
+            {
+                GridLarger();
+            }
+
+            if (e.Key == Key.Subtract && (Keyboard.Modifiers & ModifierKeys.Control) != 0)
+            {
+                GridSmaller();
+            }
+            if (e.Key == Key.F1)
+            {
+                About about = new About
+                {
+                    Owner = Application.Current.MainWindow,
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner
+                };
+                _ = about.ShowDialog();
+            }
+            //Debug.WriteLine(e.Key);
+        }
+        #endregion Keyboard Events
+
+        #region Mouse Wheel Events
+        private void Grid1_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.Modifiers != ModifierKeys.Control)
+                return;
+
+            if (e.Delta > 0)
+            {
+                GridLarger();
+            }
+            else if (e.Delta < 0)
+            {
+                GridSmaller();
+            }
+        }
+        #endregion Mouse Wheel Events
+
         #region Helper Methods
         public void WindowTitleVersion()
         {
@@ -145,6 +210,34 @@ namespace PlusTaxXL
             Title = $"Plus Tax XL - {titleVer}";
         }
         #endregion Helper Methods
+
+        #region Grid Zoom
+        private void GridSmaller()
+        {
+            double curZoom = UserSettings.Setting.GridZoom;
+            if (curZoom > 0.75)
+            {
+                curZoom -= .05;
+                UserSettings.Setting.GridZoom = Math.Round(curZoom, 2);
+            }
+            Grid1.LayoutTransform = new ScaleTransform(curZoom, curZoom);
+        }
+        private void GridLarger()
+        {
+            double curZoom = UserSettings.Setting.GridZoom;
+            if (curZoom < 1.5)
+            {
+                curZoom += .05;
+                UserSettings.Setting.GridZoom = Math.Round(curZoom, 2);
+            }
+            Grid1.LayoutTransform = new ScaleTransform(curZoom, curZoom);
+        }
+        private void GridSizeReset()
+        {
+            UserSettings.Setting.GridZoom = 1.0;
+            Grid1.LayoutTransform = new ScaleTransform(1, 1);
+        }
+        #endregion Grid Zoom
 
         #region Setting change
         private void UserSettingChanged(object sender, PropertyChangedEventArgs e)
@@ -172,7 +265,7 @@ namespace PlusTaxXL
         private void ShowHideTaxRate(bool x)
         {
             GridLengthConverter glc = new GridLengthConverter();
-            rowTaxRate.Height = x ? (GridLength)glc.ConvertFromString("75") :
+            rowTaxRate.Height = x ? (GridLength)glc.ConvertFromString("45") :
                                     (GridLength)glc.ConvertFromString("0");
             taxRateTxtBox.IsEnabled = x;
         }

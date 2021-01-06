@@ -65,7 +65,15 @@ namespace PlusTaxXL
 
         public decimal TaxRate { get; set; }
 
-        public string TitleString { get; set; }
+        public string TitleString
+        {
+            get => titleString;
+            set
+            {
+                titleString = value;
+                OnPropertyChanged(nameof(TitleString));
+            }
+        }
 
         public double WindowHeight
         {
@@ -111,6 +119,7 @@ namespace PlusTaxXL
         private bool keepOnTop;
         private double gridZoom;
         private bool showTaxRate;
+        private string titleString;
         private double windowHeight;
         private double windowLeft;
         private double windowTop;
