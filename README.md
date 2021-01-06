@@ -19,4 +19,4 @@ Plus Tax XL is a simple sales tax calculator.  I wrote this for my mother so tha
 👉 Plus Tax XL requires .Net Framework 3.5 (works on Windows 7 and newer)
 
 <br />
-![Plus Tax XL screenshot](/Images/PlusTaxXl.png?raw=true)
+![Plus Tax XL screenshot](https://github.com/Timthreetwelve/PlusTaxXL/blob/Main/Images/PlusTaxXL.png?raw=true)
